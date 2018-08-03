@@ -1,0 +1,35 @@
+-i https://pypi.org/simple
+absl-py==0.3.0
+astor==0.7.1; python_version != '3.1.*'
+audioread==2.1.6
+decorator==4.3.0
+gast==0.2.0
+grpcio==1.13.0
+h5py==2.8.0
+joblib==0.12.2
+keras-applications==1.0.4
+keras-preprocessing==1.0.2
+keras==2.2.2
+librosa==0.6.1
+llvmlite==0.24.0
+markdown==2.6.11
+numba==0.39.0; python_version != '3.0.*'
+numpy==1.15.0
+pandas==0.23.3
+protobuf==3.6.0; python_version != '3.1.*'
+pydub==0.22.1
+python-dateutil==2.7.3
+pytz==2018.5
+pyyaml==3.13
+resampy==0.2.1
+scikit-learn==0.19.2
+scipy==1.1.0
+six==1.11.0
+sklearn==0.0
+tensorboard==1.9.0; python_version != '3.1.*'
+tensorflow-gpu==1.9.0
+termcolor==1.1.0
+tqdm==4.24.0
+werkzeug==0.14.1
+wheel==0.31.1; python_version != '3.1.*'
+xgboost==0.72.1
