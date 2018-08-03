@@ -65,7 +65,8 @@ To extract feature vectors, run::
     python task2/main.py extract <training/test> [--recompute]
 
 If ``--recompute`` is enabled, the program will recompute existing feature
-vectors. See ``task2/config/logmel.py`` for tweaking the parameters.
+vectors. This implementaion extracts log-mel spectrogram features. See
+``task2/config/logmel.py`` for tweaking the parameters.
 
 Training
 ^^^^^^^^
