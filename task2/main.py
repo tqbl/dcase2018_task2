@@ -86,7 +86,7 @@ def preprocess(dataset):
 
     # Create new metadata DataFrame
     df = df.loc[[s[:8] + '.wav' for s in file_names]]
-    df.index = file_names
+    df.index = pd.Index(file_names, name=df.index.name)
 
     # Save metadata to disk
     df.to_csv(os.path.join(cfg.preprocessing_path, '%s.csv' % dataset.name))
