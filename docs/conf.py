@@ -4,7 +4,7 @@
 #
 # This file does only contain a selection of the most common options. For a
 # full list see the documentation:
-# http://www.sphinx-doc.org/en/stable/config
+# http://www.sphinx-doc.org/en/master/config
 
 # -- Path setup --------------------------------------------------------------
 
@@ -14,12 +14,12 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../gccaps'))
+sys.path.insert(0, os.path.abspath('../task2'))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'gccaps'
+project = 'dcase2018_task2'
 copyright = '2018, Turab Iqbal'
 author = 'Turab Iqbal'
 
@@ -105,7 +105,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'gccapsdoc'
+htmlhelp_basename = 'dcase2018_task2doc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -132,7 +132,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'gccaps.tex', 'gccaps Documentation',
+    (master_doc, 'dcase2018_task2.tex', 'dcase2018\\_task2 Documentation',
      'Turab Iqbal', 'manual'),
 ]
 
@@ -142,7 +142,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'gccaps', 'gccaps Documentation',
+    (master_doc, 'dcase2018_task2', 'dcase2018_task2 Documentation',
      [author], 1)
 ]
 
@@ -153,8 +153,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'gccaps', 'gccaps Documentation',
-     author, 'gccaps', 'One line description of project.',
+    (master_doc, 'dcase2018_task2', 'dcase2018_task2 Documentation',
+     author, 'dcase2018_task2', 'Surrey CVSSP DCASE 2018 Task 2 system.',
      'Miscellaneous'),
 ]
 

@@ -4,7 +4,7 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
-SPHINXPROJ    = gccaps
+SPHINXPROJ    = dcase2018_task2
 SOURCEDIR     = .
 BUILDDIR      = _build
 

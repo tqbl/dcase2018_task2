@@ -1,10 +1,10 @@
-.. gccaps documentation master file, created by
-   sphinx-quickstart on Fri Mar  9 14:38:46 2018.
+.. dcase2018_task2 documentation master file, created by
+   sphinx-quickstart on Wed Aug  8 16:30:23 2018.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to gccaps's documentation!
-==================================
+Welcome to dcase2018_task2's documentation!
+===========================================
 
 .. toctree::
    :maxdepth: 2
