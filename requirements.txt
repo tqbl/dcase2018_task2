@@ -4,7 +4,7 @@ astor==0.7.1; python_version != '3.1.*'
 audioread==2.1.6
 decorator==4.3.0
 gast==0.2.0
-grpcio==1.13.0
+grpcio==1.14.0
 h5py==2.8.0
 joblib==0.12.2
 keras-applications==1.0.4
@@ -15,7 +15,7 @@ llvmlite==0.24.0
 markdown==2.6.11
 numba==0.39.0; python_version != '3.0.*'
 numpy==1.15.0
-pandas==0.23.3
+pandas==0.23.4
 protobuf==3.6.0; python_version != '3.1.*'
 pydub==0.22.1
 python-dateutil==2.7.3
@@ -32,4 +32,3 @@ termcolor==1.1.0
 tqdm==4.24.0
 werkzeug==0.14.1
 wheel==0.31.1; python_version != '3.1.*'
-xgboost==0.72.1

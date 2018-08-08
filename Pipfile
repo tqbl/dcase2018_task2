@@ -19,7 +19,6 @@ keras = "*"
 tqdm = "*"
 tensorflow-gpu = "*"
 librosa = "*"
-xgboost = "*"
 pydub = "*"
 
 [requires]
