@@ -8,19 +8,35 @@ import pydub.silence as silence
 from pydub.exceptions import CouldntDecodeError
 
 
-def split_audio(dataset_path, name, output_path):
-    """Split an audio clip into its non-silent parts.
+def split_audio(dataset_path,
+                file_name,
+                output_path,
+                n_window=1024,
+                default_threshold=-56,
+                transients_threshold=-56,
+                min_silence=500,
+                keep_silence=500,
+                ):
+    """Split an audio clip into non-silent segments.
 
-    This function detects the non-silent sections of an audio clip based
-    on the RMS energy of individual frames. If there is continuous
-    silence longer than 500 ms, the non-silent frames on either side are
-    considered to be from separate sections. These sections are saved to
-    disk to be considered as separate clips.
+    This function detects the non-silent segments of an audio clip and
+    saves them separately as WAV files in the specified directory.
+    Silence is detected on a frame-by-frame basis by thresholding the
+    RMS energy of each frame. A non-silent segment is defined to be the
+    span of non-silent frames such that two such adjacent frames are
+    less than `min_silence` ms apart. `keep_silence` ms of silence is
+    also kept at the beginning and end of each segment.
 
     Args:
         dataset_path (str): Path of directory containing dataset.
-        name (str): File name of audio clip to be split.
+        file_name (str): File name of audio clip to be split.
         output_path (str): Path of output directory.
+        n_window (int): Number of samples in a frame.
+        default_threshold (int): Default silence threshold (in dBFS).
+        transients_threshold (int): Silence threshold for transient
+            audio signals (in dBFS).
+        min_silence (int): Minimum length of silence between segments.
+        keep_silence (int): Amound of start/end silence to keep (in ms).
 
     Returns:
         list: The output file names.
@@ -28,44 +44,46 @@ def split_audio(dataset_path, name, output_path):
     def _export_segments(segments):
         fnames = []
         for i, seg in enumerate(segments):
-            fname = '{}_{}.wav'.format(os.path.splitext(name)[0], i)
+            fname = '{}_{}.wav'.format(os.path.splitext(file_name)[0], i)
             seg.export(os.path.join(output_path, fname), format='wav')
             fnames.append(fname)
         return fnames
 
     try:
-        x = AudioSegment.from_wav(os.path.join(dataset_path, name))
+        x = AudioSegment.from_wav(os.path.join(dataset_path, file_name))
     except CouldntDecodeError:
         x = AudioSegment.empty()
 
-    # Skip audio samples that are shorter than 1 second
-    if x.duration_seconds < 1.0:
+    # Skip audio clips that are not longer than the padding
+    # Padding refers to the silence that is kept for each segment
+    padding = keep_silence * 2
+    if x.duration_seconds <= padding / 1000:
         return _export_segments([x])
 
     # Determine silence threshold based on whether the audio signal
     # consists entirely of transients.
-    x_array = x.get_array_of_samples()
-    if _is_transients(x_array, x.frame_rate, 1024):
-        threshold = -56
+    if _is_transients(x.get_array_of_samples(), x.frame_rate, n_window):
+        threshold = transients_threshold
     else:
-        threshold = -48
+        threshold = default_threshold
 
     segments = silence.split_on_silence(
         audio_segment=x,
-        min_silence_len=500,
+        min_silence_len=min_silence,
         silence_thresh=threshold,
-        keep_silence=400,
+        keep_silence=keep_silence,
     )
 
-    # Export the original clip if no non-silent sections were found
+    # Export the original clip if no non-silent segments were found
     if len(segments) == 0:
         return _export_segments([x])
 
-    # Discard sections that are unlikely to be important
+    # Discard segments that are too short
     mean_time = np.mean([seg.duration_seconds for seg in segments])
-    if mean_time > 1.5:
+    discard_threshold = 100 + padding
+    if mean_time > discard_threshold + 500:
         segments = [seg for seg in segments
-                    if seg.duration_seconds > 0.9]
+                    if seg.duration_seconds > discard_threshold]
 
     return _export_segments(segments)
 

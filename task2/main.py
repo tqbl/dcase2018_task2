@@ -82,7 +82,16 @@ def preprocess(dataset):
     file_names = []
     df = io.read_metadata(dataset.metadata_path)
     for name in tqdm(df.index):
-        file_names += silence.split_audio(dataset.path, name, output_path)
+        file_names += silence.split_audio(
+            dataset_path=dataset.path,
+            file_name=name,
+            output_path=output_path,
+            n_window=cfg.n_window,
+            default_threshold=cfg.default_threshold,
+            transients_threshold=cfg.transients_threshold,
+            min_silence=cfg.min_silence,
+            keep_silence=cfg.keep_silence,
+        )
 
     # Create new metadata DataFrame
     df = df.loc[[s[:8] + '.wav' for s in file_names]]

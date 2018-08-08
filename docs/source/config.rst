@@ -36,6 +36,14 @@ config.prediction module
     :undoc-members:
     :show-inheritance:
 
+config.silence module
+---------------------
+
+.. automodule:: config.silence
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 config.training module
 ----------------------
 
