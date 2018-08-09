@@ -93,3 +93,5 @@ feats = np.stack(feats, axis=1)
 feats = np.reshape(feats, (feats.shape[0], -1))
 with h5py.File(args.output_path, 'w') as f:
     f.create_dataset('F', data=feats)
+    f.create_dataset('names', data=top_preds[0].index.values,
+                     dtype=h5py.special_dtype(vlen=str))
