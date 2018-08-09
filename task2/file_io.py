@@ -39,4 +39,4 @@ def write_predictions(y_pred, output_path):
         output_path (str): Output file path.
     """
     top_3 = y_pred.apply(lambda x: ' '.join(x.nlargest(3).index), axis=1)
-    pd.Series(top_3, name='label').to_csv(output_path)
+    pd.Series(top_3, name='label').to_csv(output_path, header=True)
