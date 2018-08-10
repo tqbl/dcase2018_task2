@@ -144,7 +144,7 @@ In this case, you might run::
 
 For the time being, the script must be edited to select the classifiers.
 
-To then generate predictions using on a second-level classifier, run::
+To then generate predictions using a second-level classifier, run::
 
     python scripts/predict_stack.py --test_path test.h5 training.h5 <metadata_path> <output_path>
 
@@ -158,6 +158,7 @@ To relabel or promote training examples, run::
 
     python scripts/relabel.py <metadata_path> <pred_path> <output_path> [--relabel_threshold t1] [--promote_threshold t2]
 
-The argument ``metadata_path`` is the path to the training set metadata file. 
-``pred_path`` is the path to the predictions file used for pseudo-labeling. The
-threshold options allow constraining which examples are relabeled or promoted.
+The argument ``metadata_path`` is the path to the training set metadata file
+containing the original labels. ``pred_path`` is the path to the predictions
+file used for pseudo-labeling. The threshold options allow constraining which
+examples are relabeled or promoted.
