@@ -111,3 +111,53 @@ Evaluation
 To evaluate the predictions, run::
 
     python task2/main.py evaluate <fold>
+
+
+Stacking
+^^^^^^^^
+Stacking is an ensembling technique that involves creating meta-features based
+on the predictions of a number of base classifiers. These meta-features are
+then used to train a second-level classifier and generate new predictions. We
+provide scripts to do this.
+
+To generate meta-features, run::
+
+    python scripts/meta_features.py <pred_path> <pred_type> <output_path>
+
+The argument ``pred_path`` refers to the parent directory in which the
+predictions of the base classifiers are stored. ``pred_type`` must be either
+``training`` or ``test``, depending on which dataset the meta-features are for.
+``output_path`` specifies the path of the output HDF5 file.
+
+To give an example, assume that the directory structure looks like this::
+
+    workspace
+    ├── predictions
+    │   ├── classifier1
+    │   ├── classifier2
+    │   ├── classifier3
+
+In this case, you might run::
+
+    python scripts/meta_features.py workspace/predictions training training.h5
+    python scripts/meta_features.py workspace/predictions test test.h5
+
+For the time being, the script must be edited to select the classifiers.
+
+To then generate predictions using on a second-level classifier, run::
+
+    python scripts/predict_stack.py --test_path test.h5 training.h5 <metadata_path> <output_path>
+
+The argument ``metadata_path`` is the path to the training set metadata file.
+See the script itself for more details.
+
+
+Pseudo-labeling
+^^^^^^^^^^^^^^^
+To relabel or promote training examples, run::
+
+    python scripts/relabel.py <metadata_path> <pred_path> <output_path> [--relabel_threshold t1] [--promote_threshold t2]
+
+The argument ``metadata_path`` is the path to the training set metadata file. 
+``pred_path`` is the path to the predictions file used for pseudo-labeling. The
+threshold options allow constraining which examples are relabeled or promoted.
