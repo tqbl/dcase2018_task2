@@ -70,9 +70,9 @@ class MixupGenerator():
         y = self._mixup(self.y_train, indexes, mixup_weights[:, None])
 
         # Mix sample weights if applicable
-        if self.sample_weight is not None:
-            sample_weight = self._mixup(self.sample_weight,
-                                        indexes, mixup_weights)
+        sample_weigth = self.sample_weight
+        if sample_weight is not None:
+            sample_weight = self._mixup(sample_weight, indexes, mixup_weights)
 
         # Apply preprocessing to training data
         if self.generator:
