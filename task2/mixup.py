@@ -70,7 +70,7 @@ class MixupGenerator():
         y = self._mixup(self.y_train, indexes, mixup_weights[:, None])
 
         # Mix sample weights if applicable
-        sample_weigth = self.sample_weight
+        sample_weight = self.sample_weight
         if sample_weight is not None:
             sample_weight = self._mixup(sample_weight, indexes, mixup_weights)
 
