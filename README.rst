@@ -1,7 +1,12 @@
 Surrey CVSSP DCASE 2018 Task 2 System
 =====================================
 
-This is the source code for the system used in the DCASE 2018 Task 2 challenge.
+This is the source code for CVSSP's system used in `DCASE 2018 Task 2`__.
+
+The accompanying technical report can be found `here`__.
+
+__ http://dcase.community/challenge2018/task-general-purpose-audio-tagging
+__ http://dcase.community/challenge2018/task-general-purpose-audio-tagging-results#Iqbal2018
 
 Requirements
 ------------
@@ -15,8 +20,8 @@ or::
     pip install -r requirements.txt
 
 The main functionality of this software also requires the DCASE 2018 Task 2
-datasets, which may be downloaded here_. After acquiring the datasets, modify
-``task2/config/paths.py`` accordingly.
+datasets, which may be downloaded `here`__. After acquiring the datasets,
+modify ``task2/config/dcase2018_task2.py`` accordingly.
 
 For example::
 
@@ -30,12 +35,12 @@ For example::
     )
     """Dataset instance for the training dataset."""
 
-You may also want to change the work path::
+You will also want to change the work path in ``task2/config/paths.py``::
 
     work_path = '/path/to/workspace'
     """str: Path to parent directory containing program output."""
 
-.. _here: https://www.kaggle.com/c/freesound-audio-tagging/data
+__ https://www.kaggle.com/c/freesound-audio-tagging/data
 
 Usage
 -----
@@ -160,5 +165,6 @@ To relabel or promote training examples, run::
 
 The argument ``metadata_path`` is the path to the training set metadata file
 containing the original labels. ``pred_path`` is the path to the predictions
-file used for pseudo-labeling. The threshold options allow constraining which
-examples are relabeled or promoted.
+file used for pseudo-labeling. ``output_path`` is the path of the new metadata
+file to be written. The threshold options allow constraining which examples are
+relabeled or promoted.
