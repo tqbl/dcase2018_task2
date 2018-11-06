@@ -10,16 +10,16 @@ sphinx = "*"
 sphinx-rtd-theme = "*"
 
 [packages]
-numpy = "*"
-scipy = "*"
-sklearn = "*"
-pandas = "*"
 "h5py" = "*"
 keras = "*"
-tqdm = "*"
-tensorflow-gpu = "*"
 librosa = "*"
+numpy = "*"
+pandas = "*"
 pydub = "*"
+scipy = "*"
+sklearn = "*"
+tensorflow-gpu = "*"
+tqdm = "*"
 
 [requires]
 python_version = "3"
