@@ -153,7 +153,7 @@ def train(model, fold, use_class_weight, noisy_sample_weight):
     # Try to create reproducible results
     np.random.seed(cfg.initial_seed)
 
-    # Load (standardized) training data
+    # Load training data and associated metadata
     x, df = _load_data(cfg.to_dataset('training'))
     # Get one-hot representation of target values
     y = utils.to_categorical(df.label)
@@ -213,7 +213,7 @@ def predict(dataset, fold):
     """
     import inference
 
-    # Load (standardized) input data and associated metadata
+    # Load input data and associated metadata
     x, df = _load_data(dataset)
     dataset_name = dataset.name
     if dataset.name == 'training':
