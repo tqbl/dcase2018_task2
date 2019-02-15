@@ -205,14 +205,15 @@ def _create_callbacks(fold):
     Returns:
         list: List of Keras callbacks.
     """
+    fold_dir = str(fold) if fold >= 0 else 'all'
+
     # Create callbacks for computing various metrics and logging them
     callbacks = []
     if fold >= 0:
         callbacks += [MAPLogger(), F1ScoreLogger(cfg.threshold),
-                      CSVLogger(cfg.history_path.format(fold))]
+                      CSVLogger(cfg.history_path.format(fold_dir))]
 
     # Create callback to save model after every epoch
-    fold_dir = str(fold) if fold >= 0 else 'all'
     path = os.path.join(cfg.model_path, fold_dir,
                         'model.{epoch:02d}-{acc:.4f}.h5')
     callbacks.append(ModelCheckpoint(filepath=path, monitor='acc'))
