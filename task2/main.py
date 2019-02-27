@@ -217,6 +217,9 @@ def predict(dataset, fold):
     x, df = _load_data(dataset)
     dataset_name = dataset.name
     if dataset.name == 'training':
+        if fold == -1:
+            raise ValueError('Invalid fold: %d' % fold)
+
         dataset_name += str(fold)
         mask = df.fold == fold
         tr_x = x[~mask]
@@ -265,16 +268,16 @@ def evaluate_audio_tagging(fold):
     import evaluation
 
     # Load grouth truth data and predictions
-    dataset = cfg.to_dataset('training')
-    fold_str = 'training' + str(fold)
+    dataset = cfg.to_dataset('training', preprocessed=False)
     df = io.read_metadata(dataset.metadata_path)
-    df = utils.group_by_name(df[df.fold == fold]).first()
+    df = df[df.fold == fold]
     y_true = utils.to_categorical(df.label)
+    fold_str = 'training' + str(fold)
     path = cfg.predictions_path.format('predictions', fold_str)
     y_pred = pd.read_csv(path, index_col=0).values
 
     # Mask out those that are not manually verified
-    mask = y_true.manually_verified == 1
+    mask = df.manually_verified == 1
     y_pred = y_pred[mask]
     y_true = y_true[mask]
 
