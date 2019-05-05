@@ -153,7 +153,7 @@ class LogmelExtractor(object):
             tuple: The shape of a logmel feature vector.
         """
         n_samples = clip_duration * self.sample_rate
-        n_frames = (n_samples - self.n_window) // self.hop_length + 1
+        n_frames = n_samples // self.hop_length + 1
         return (n_frames, self.mel_fb.shape[0])
 
     def extract(self, x, sample_rate):
