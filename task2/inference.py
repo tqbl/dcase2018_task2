@@ -25,7 +25,9 @@ def binarize_predictions(y_pred, threshold=-1):
     if threshold > 0:
         return (y_pred > threshold).astype(int)
 
-    return utils.to_categorical(np.argmax(y_pred, axis=1))
+    dtype = pd.api.types.CategoricalDtype(categories=range(y_pred.shape[1]))
+    return utils.to_categorical(pd.Series(
+        np.argmax(y_pred, axis=1), dtype=dtype))
 
 
 def merge_predictions(y_pred, index, op='gmean'):

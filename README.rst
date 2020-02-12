@@ -115,7 +115,7 @@ Evaluation
 
 To evaluate the predictions, run::
 
-    python task2/main.py evaluate <fold>
+    python task2/main.py evaluate <training/test> [--fold n]
 
 
 Stacking

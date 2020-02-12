@@ -51,7 +51,8 @@ def main():
 
     # Add sub-parser for evaluation
     parser_evaluate = subparsers.add_parser('evaluate')
-    parser_evaluate.add_argument('fold', type=int)
+    parser_evaluate.add_argument('dataset', choices=['training', 'test'])
+    parser_evaluate.add_argument('--fold', type=int, default=-1)
 
     args = parser.parse_args()
     if args.mode == 'preprocess':
@@ -63,7 +64,8 @@ def main():
     elif args.mode == 'predict':
         predict(cfg.to_dataset(args.dataset), args.fold)
     elif args.mode == 'evaluate':
-        evaluate_audio_tagging(args.fold)
+        dataset = cfg.to_dataset(args.dataset, preprocessed=False)
+        evaluate_audio_tagging(dataset, args.fold)
 
 
 def preprocess(dataset):
@@ -259,7 +261,7 @@ def predict(dataset, fold):
     io.write_predictions(pred_mean, predictions_path % 'submission')
 
 
-def evaluate_audio_tagging(fold):
+def evaluate_audio_tagging(dataset, fold):
     """Evaluate the audio tagging predictions and write results.
 
     Args:
@@ -267,19 +269,25 @@ def evaluate_audio_tagging(fold):
     """
     import evaluation
 
-    # Load grouth truth data and predictions
-    dataset = cfg.to_dataset('training', preprocessed=False)
+    # Load grouth truth data
     df = io.read_metadata(dataset.metadata_path)
-    df = df[df.fold == fold]
-    y_true = utils.to_categorical(df.label)
-    fold_str = 'training' + str(fold)
-    path = cfg.predictions_path.format('predictions', fold_str)
-    y_pred = pd.read_csv(path, index_col=0).values
+    if dataset.name == 'training':
+        df = df[(df.fold == fold) & (df.manually_verified == 1)]
+    elif dataset.name == 'test':
+        df = df[df.usage != 'Ignored']
+    y_true = pd.get_dummies(df.label)
 
-    # Mask out those that are not manually verified
-    mask = df.manually_verified == 1
-    y_pred = y_pred[mask]
-    y_true = y_true[mask]
+    name = dataset.name
+    if fold >= 0:
+        name += str(fold)
+
+    # Load predictions
+    y_pred = io.read_metadata(cfg.predictions_path.format('predictions', name))
+
+    # Ensure only elements common to both y_true and y_pred are selected
+    index = y_true.index.intersection(y_pred.index)
+    y_true = y_true.loc[index].values
+    y_pred = y_pred.loc[index].values
 
     # Evaluate audio tagging performance
     scores = evaluation.evaluate_audio_tagging(
@@ -287,7 +295,7 @@ def evaluate_audio_tagging(fold):
 
     # Ensure output directory exist and write results
     os.makedirs(os.path.dirname(cfg.results_path), exist_ok=True)
-    output_path = cfg.results_path.format(fold_str)
+    output_path = cfg.results_path.format(name)
     scores.to_csv(output_path)
 
     # Print scores to 3 decimal places
