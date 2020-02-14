@@ -3,10 +3,13 @@ Surrey CVSSP DCASE 2018 Task 2 System
 
 This is the source code for CVSSP's system used in `DCASE 2018 Task 2`__.
 
-The accompanying technical report can be found `here`__.
+For more details about the system, consider reading the `technical
+report`__ or the `workshop paper`__ [1]_.
 
 __ http://dcase.community/challenge2018/task-general-purpose-audio-tagging
-__ http://dcase.community/challenge2018/task-general-purpose-audio-tagging-results#Iqbal2018
+__ http://dcase.community/documents/challenge2018/technical_reports/DCASE2018_Iqbal_89.pdf
+__ http://dcase.community/documents/workshop2018/proceedings/DCASE2018Workshop_Iqbal_151.pdf
+
 
 Requirements
 ------------
@@ -41,6 +44,7 @@ You will also want to change the work path in ``task2/config/paths.py``::
     """str: Path to parent directory containing program output."""
 
 __ https://www.kaggle.com/c/freesound-audio-tagging/data
+
 
 Usage
 -----
@@ -117,7 +121,6 @@ To evaluate the predictions, run::
 
     python task2/main.py evaluate <training/test> [--fold n]
 
-
 Stacking
 ^^^^^^^^
 Stacking is an ensembling technique that involves creating meta-features based
@@ -156,7 +159,6 @@ To then generate predictions using a second-level classifier, run::
 The argument ``metadata_path`` is the path to the training set metadata file.
 See the script itself for more details.
 
-
 Pseudo-labeling
 ^^^^^^^^^^^^^^^
 To relabel or promote training examples, run::
@@ -168,3 +170,13 @@ containing the original labels. ``pred_path`` is the path to the predictions
 file used for pseudo-labeling. ``output_path`` is the path of the new metadata
 file to be written. The threshold options allow constraining which examples are
 relabeled or promoted.
+
+
+Citing
+------
+If you wish to cite this work, please cite the following paper:
+
+.. [1] \T. Iqbal, Q. Kong, M. D. Plumbley, and W. Wang, "General-Purpose
+       Audio Tagging from Noisy Labels using Convolutional Neural
+       Networks," in Detection and Classification of Acoustic Scenes and
+       Events 2018 Workshop, Woking, UK, 2018, pp. 212–216.
