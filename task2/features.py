@@ -47,6 +47,7 @@ def extract_dataset(dataset_path,
             path = os.path.join(dataset_path, name)
             x, sample_rate = librosa.load(path, sr=None)
             if sample_rate is None:
+                print('Warning: Skipping {}'.format(name))
                 continue
 
             # Extract and save to dataset as flattened array
@@ -88,18 +89,24 @@ def load_features(path, chunk_size=128, r_threshold=32):
             # Reshape flat array to original shape
             feat = np.reshape(feat, (-1, *shape))
 
+            if len(feat) == 0:
+                n_chunks.append(0)
+                continue
+
             # Split feature vector into chunks along time axis
             q = len(feat) // chunk_size
             r = len(feat) % chunk_size
-            if not q:
+            if not q and r:
                 split = [utils.pad_truncate(feat, chunk_size,
                                             pad_value=np.min(feat))]
-            else:
+            elif r:
                 r = len(feat) % chunk_size
                 off = r // 2 if r < r_threshold else 0
                 split = np.split(feat[off:q * chunk_size + off], q)
                 if r >= r_threshold:
                     split.append(feat[-chunk_size:])
+            else:
+                split = np.split(feat, q)
 
             n_chunks.append(len(split))
             chunks += split
